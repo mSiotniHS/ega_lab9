@@ -15,13 +15,13 @@ public static class Roulette
 
 		var totalWeight = weights.Sum();
 
-		var randVar = Utilities.GetRandomDouble() * totalWeight;
-		var currentProb = 0.0;
+		var randomNum = Utilities.GetRandomDouble() * totalWeight;
+		var currentSector = 0.0;
 
 		for (var i = 0; i < items.Count; i++)
 		{
-			currentProb += weights[i];
-			if (randVar <= currentProb)
+			currentSector += weights[i];
+			if (randomNum <= currentSector)
 			{
 				return items[i];
 			}

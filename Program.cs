@@ -10,13 +10,13 @@ internal static class Program
 {
 	private static void Main()
 	{
-		var (cityCount, distances) = FromFile();
-		var matrix = new DistanceMatrix<int>(cityCount, distances.ToArray());
+		var (cityCount, rawDistances) = FromFile();
+		var distances = new DistanceMatrix<int>(cityCount, rawDistances.ToArray());
 
-		var (path, distance) =
-			ClosestNeighbourMethod.FindSolution(matrix, GetRandom(cityCount - 1));
+		var (route, distance) =
+			ClosestNeighbourMethod.FindSolution(distances, GetRandom(cityCount - 1));
 
-		Console.WriteLine($"Маршрут: {string.Join(" -> ", path)}");
+		Console.WriteLine($"Маршрут: {string.Join(" -> ", route)}");
 		Console.WriteLine($"Расстояние: {distance}");
 	}
 
@@ -24,21 +24,21 @@ internal static class Program
 	{
 		var lines = File.ReadLines("matrix.txt");
 
-		var i = 0;
-		var distances = new List<int>();
+		var cityCount = 0;
+		var rawDistances = new List<int>();
 		foreach (var line in lines)
 		{
 			var split = line.Split(' ');
-			for (var j = i+1; j < split.Length; j++)
+			for (var j = cityCount+1; j < split.Length; j++)
 			{
 				var successfulParse = int.TryParse(split[j], out var distance);
 				if (!successfulParse) throw new Exception("Failed to parse distance");
-				distances.Add(distance);
+				rawDistances.Add(distance);
 			}
 
-			i++;
+			cityCount++;
 		}
 
-		return (i, distances);
+		return (cityCount, rawDistances);
 	}
 }

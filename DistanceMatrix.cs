@@ -4,37 +4,31 @@ namespace ega_lab9;
 
 public sealed class DistanceMatrix<T>
 {
-	private readonly T[] _data;
+	private readonly T[] _distances;
 	public int CityCount { get; }
 
-	public DistanceMatrix(int cityCount)
+	public DistanceMatrix(int cityCount, T[] distances)
 	{
 		CityCount = cityCount;
-		_data = new T[CityCount * (CityCount - 1) / 2];
-	}
-
-	public DistanceMatrix(int cityCount, T[] data)
-	{
-		CityCount = cityCount;
-		if (data.Length != CityCount * (CityCount - 1) / 2)
+		if (distances.Length != CityCount * (CityCount - 1) / 2)
 			throw new ArgumentException("Invalid data length");
-		_data = data;
+		_distances = distances;
 	}
 
-	private int ConvertIndex(int i, int j)
+	private int ConvertIndex(int from, int to)
 	{
-		if (i == j) return 0;
+		if (from == to) return 0;
 
-		if (i > j)
+		if (from > to)
 		{
-			(i, j) = (j, i);
+			(from, to) = (to, from);
 		}
 
-		var idx = j - i - 1;
-		var jump = Convert.ToInt32(Utilities.APSum(CityCount - 1, -1, i));
+		var idx = to - from - 1;
+		var jump = Convert.ToInt32(Utilities.APSum(CityCount - 1, -1, from));
 
 		return jump + idx;
 	}
 
-	public T this[int from, int to] => _data[ConvertIndex(from, to)];
+	public T this[int from, int to] => _distances[ConvertIndex(from, to)];
 }
