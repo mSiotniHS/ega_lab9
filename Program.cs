@@ -13,8 +13,21 @@ internal static class Program
 		var (cityCount, rawDistances) = FromFile();
 		var distances = new DistanceMatrix(cityCount, rawDistances.ToArray());
 
-		var (route, distance) =
-			ClosestNeighbourMethod.FindSolution(distances, GetRandom(cityCount - 1));
+		Console.WriteLine("Выберите метод решения:\n1) Метод ближайшего соседа\n2) Метод ближайшего города");
+		int method;
+		do
+		{
+			method = Convert.ToInt32(Console.ReadLine());
+		}
+		while (method != 1 && method != 2);
+
+		var firstCity = GetRandom(cityCount - 1);
+		var (route, distance) = method switch
+		{
+			1 => ClosestNeighbourMethod.FindSolution(distances, firstCity),
+			2 => ClosestCityMethod.FindSolution(distances, firstCity),
+			_ => throw new ArgumentOutOfRangeException()
+		};
 
 		Console.WriteLine($"Маршрут: {string.Join(" -> ", route)}");
 		Console.WriteLine($"Расстояние: {distance}");
