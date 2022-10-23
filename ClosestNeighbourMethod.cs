@@ -6,7 +6,7 @@ namespace ega_lab9;
 
 public static class ClosestNeighbourMethod
 {
-	public static (IEnumerable<int>, int) FindSolution(DistanceMatrix<int> distances, int firstCity)
+	public static (IEnumerable<int>, int) FindSolution(DistanceMatrix distances, int firstCity)
 	{
 		var route = new List<int> { firstCity };
 		var distance = 0;
@@ -36,7 +36,7 @@ public static class ClosestNeighbourMethod
 		return (route, distance);
 	}
 
-	private static int NextCity(DistanceMatrix<int> distances, int currentCity, List<int> unvisitedCities)
+	private static int NextCity(DistanceMatrix distances, int currentCity, List<int> unvisitedCities)
 	{
 		var weights = new List<double>();
 		foreach (var unvisitedCity in unvisitedCities)

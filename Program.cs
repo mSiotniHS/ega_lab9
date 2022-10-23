@@ -11,7 +11,7 @@ internal static class Program
 	private static void Main()
 	{
 		var (cityCount, rawDistances) = FromFile();
-		var distances = new DistanceMatrix<int>(cityCount, rawDistances.ToArray());
+		var distances = new DistanceMatrix(cityCount, rawDistances.ToArray());
 
 		var (route, distance) =
 			ClosestNeighbourMethod.FindSolution(distances, GetRandom(cityCount - 1));
